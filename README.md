@@ -6,23 +6,6 @@
    </p>
    <p>
       <a href="https://www.npmjs.com/package/discord-player"><img src="https://img.shields.io/npm/v/discord-player?color=blue" alt="npm"></a>
-      <a href="LICENSE"><img src="https://img.shields.io/github/license/SEU_USUARIO/music-bot?color=brightgreen" alt="license"></a>
-      <a href="https://github.com/Samurai33/music-bot/issues"><img src="https://img.shields.io/github/issues/Samurai33/music-bot?color=yellow" alt="issues"></a>
-      <a href="https://github.com/Samurai33/music-bot/pulls"><img src="https://img.shields.io/github/issues-pr/Samurai33/music-bot?color=orange" alt="pull requests"></a>
-      <a href="https://github.com/Samurai33/music-bot/stargazers"><img src="https://img.shields.io/github/stars/Samurai33/music-bot?style=social" alt="stars"></a>
-      <a href="https://discord.gg/discord-player"><img src="https://img.shields.io/discord/558328638911078401?label=discord&logo=discord&color=7289da" alt="discord"></a>
-   </p>
-      <img src="https://raw.githubusercontent.com/Samurai33/music-bot/main/.github/assets/demo.gif" alt="Music Bot Demo" width="600"/>
-   ## 🚀 Quickstart
-
-<div align="center">
-   <h1>🎵 Music Bot</h1>
-   <p>
-      <b>Open Source Discord Music Bot</b> <br/>
-      Built with <a href="https://discord.js.org">discord.js</a>, <a href="https://discord-player.js.org">discord-player</a> & TypeScript
-   </p>
-   <p>
-      <a href="https://www.npmjs.com/package/discord-player"><img src="https://img.shields.io/npm/v/discord-player?color=blue" alt="npm"></a>
       <a href="LICENSE"><img src="https://img.shields.io/github/license/Samurai33/music-bot?color=brightgreen" alt="license"></a>
       <a href="https://github.com/Samurai33/music-bot/issues"><img src="https://img.shields.io/github/issues/Samurai33/music-bot?color=yellow" alt="issues"></a>
       <a href="https://github.com/Samurai33/music-bot/pulls"><img src="https://img.shields.io/github/issues-pr/Samurai33/music-bot?color=orange" alt="pull requests"></a>
