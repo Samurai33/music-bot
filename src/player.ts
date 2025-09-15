@@ -4,6 +4,9 @@ import { SoundCloudExtractor } from '@discord-player/extractor';
 import { YoutubeiExtractor } from 'discord-player-youtubei';
 import { EmbedBuilder } from 'discord.js';
 
+// ...existing code...
+
+
 /**
  * Create and configure a Discord Player instance.  This function
  * registers the extractors you want to support and sets up some
