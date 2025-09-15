@@ -1,7 +1,8 @@
 import { Player } from 'discord-player';
 import type { Client } from 'discord.js';
-import { YoutubeExtractor, SoundCloudExtractor } from '@discord-player/extractor';
+import { SoundCloudExtractor } from '@discord-player/extractor';
 import { YoutubeiExtractor } from 'discord-player-youtubei';
+import { EmbedBuilder } from 'discord.js';
 
 /**
  * Create and configure a Discord Player instance.  This function
@@ -14,9 +15,7 @@ import { YoutubeiExtractor } from 'discord-player-youtubei';
  */
 export function createPlayer(client: Client) {
   const player = new Player(client, {
-    // Increase the buffer size for streams to reduce stuttering on slow
-    // connections.  See https://github.com/discord-player/discord-player#ytdl
-    ytdlOptions: { highWaterMark: 1 << 25 }
+    // Player options (none needed for ytdlOptions in v7+)
   });
 
   // Register extractors for YouTube and SoundCloud.  You can add
@@ -26,27 +25,60 @@ export function createPlayer(client: Client) {
   player.extractors.register(YoutubeiExtractor, {});
   player.extractors.register(SoundCloudExtractor, {});
 
-  // When a new track starts playing announce it in the associated text channel.
 
+
+  // Announce when a new track starts
   player.events.on('playerStart', (queue: any, track: any) => {
-    queue.metadata?.channel?.send(`🎶 **Tocando:** ${track.title}`);
+    const embed = new EmbedBuilder()
+      .setColor(0x1DB954)
+      .setTitle('🎶 Now Playing')
+      .setDescription(`**[${track.title}](${track.url})**`)
+      .setThumbnail(track.thumbnail || null)
+      .addFields(
+        { name: 'Duration', value: track.duration, inline: true },
+        { name: 'Author', value: track.author, inline: true },
+        { name: 'Requested by', value: track.requestedBy?.tag || track.requestedBy?.username || 'Unknown', inline: true }
+      )
+      .setFooter({ text: 'Enjoy your music!' });
+    queue.metadata?.channel?.send({ embeds: [embed] }).catch(() => {});
   });
 
-  // Handle errors by logging them and notifying the channel.
+  // Only supported events below. If you want to handle queue end, use 'emptyQueue' or 'disconnect' for logging.
 
+
+
+  // Handle errors by logging them and notifying the channel with embeds
   player.events.on('error', (queue: any, err: any) => {
     console.error('Player error:', err);
-    queue.metadata?.channel?.send(`⚠️ Erro no player: ${String(err).slice(0, 200)}`);
+    const embed = new EmbedBuilder()
+      .setColor(0xED4245)
+      .setTitle('⚠️ Player Error')
+      .setDescription(String(err).slice(0, 200));
+    queue.metadata?.channel?.send({ embeds: [embed] }).catch(() => {});
   });
 
-  // playerError cobre erros de conexão/voz e outros problemas internos
   player.events.on('playerError', (queue: any, err: any) => {
     console.error('Player internal error:', err);
-    queue.metadata?.channel?.send(`⚠️ Erro interno do player: ${String(err).slice(0, 200)}`);
+    const embed = new EmbedBuilder()
+      .setColor(0xED4245)
+      .setTitle('⚠️ Internal Player Error')
+      .setDescription(String(err).slice(0, 200));
+    queue.metadata?.channel?.send({ embeds: [embed] }).catch(() => {});
   });
 
-  // Substitua o registro do YoutubeExtractor por:
-  // (já feito acima)
+  // Log disconnects and idle events for debugging
+  player.events.on('disconnect', (queue: any) => {
+    console.log('Disconnected from voice channel in guild:', queue.guild?.id);
+  });
+  player.events.on('emptyChannel', (queue: any) => {
+    console.log('Voice channel is empty, will leave:', queue.guild?.id);
+  });
+  player.events.on('emptyQueue', (queue: any) => {
+    console.log('Queue is empty, will leave soon:', queue.guild?.id);
+  });
+  player.events.on('debug', (queue: any, message: string) => {
+    console.log(`[Player Debug] ${message}`);
+  });
 
   return player;
 }

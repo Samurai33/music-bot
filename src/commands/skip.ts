@@ -1,8 +1,8 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
+import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
 
 export const data = new SlashCommandBuilder()
   .setName('skip')
-  .setDescription('Pula a música atual');
+  .setDescription('Skip the current track');
 
 export async function execute(
   interaction: ChatInputCommandInteraction,
@@ -10,14 +10,15 @@ export async function execute(
 ) {
   const queue = client.player.nodes.get(interaction.guildId!);
   if (!queue || !queue.node.isPlaying()) {
-    return interaction.reply({ content: 'Nenhuma música está tocando.', ephemeral: true });
+    return interaction.reply({ content: 'Nothing is currently playing.', ephemeral: true });
   }
-  // Tente pular a faixa atual.
   const current = queue.currentTrack;
-  queue.node.skip();
-  return interaction.reply(
-    current
-      ? `⏭️ Pulando **${current.title}**...`
-      : '⏭️ Pulando para a próxima faixa...'
-  );
+  await queue.node.skip();
+  const embed = new EmbedBuilder()
+    .setColor(0x1DB954)
+    .setTitle('⏭️ Track Skipped')
+    .setDescription(current
+      ? `Skipped **[${current.title}](${current.url})**.`
+      : 'Skipped to the next track.');
+  return interaction.reply({ embeds: [embed] });
 }
