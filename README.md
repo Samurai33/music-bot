@@ -3,7 +3,7 @@
 ![marolabeat_logo](marolabeat_logo.png)
 
 <div align="center">
-   <h1>🎵 Music Bot</h1>
+   <h1>🎵 Marola Beat</h1>
    <p>
       <b>Open Source Discord Music Bot</b> <br/>
       Built with <a href="https://discord.js.org">discord.js</a>, <a href="https://discord-player.js.org">discord-player</a> & TypeScript
